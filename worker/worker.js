@@ -4,7 +4,10 @@
 //   POST /chat     { question, context, lang }                    -> { answer }
 // Setup: add a secret named GEMINI_API_KEY in the Worker's settings.
 
-const MODEL = "gemini-2.5-flash";
+// Preferred models, tried in order. If Google retires one, the server finds
+// another "flash" model automatically, so this file rarely needs changing.
+const MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash"];
+let chosenModel = null;
 const ALLOWED_ORIGINS = [
   "https://senthamizhselvanpa29-byte.github.io",
 ];
@@ -22,26 +25,51 @@ function cors(origin) {
 const json = (data, status, origin) =>
   new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json", ...cors(origin) } });
 
-async function gemini(env, parts, { jsonOut = false, maxTokens = 800 } = {}) {
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts }],
-        generationConfig: {
-          temperature: 0.3,
-          maxOutputTokens: maxTokens,
-          thinkingConfig: { thinkingBudget: 0 },
-          ...(jsonOut ? { responseMimeType: "application/json" } : {}),
-        },
-      }),
+const API = "https://generativelanguage.googleapis.com/v1beta";
+
+async function findFlashModel(env) {
+  const res = await fetch(`${API}/models?pageSize=200`, { headers: { "x-goog-api-key": env.GEMINI_API_KEY } });
+  if (!res.ok) return null;
+  const { models = [] } = await res.json();
+  const ok = models.filter(m => (m.supportedGenerationMethods || []).includes("generateContent") &&
+    /flash/.test(m.name) && !/lite|image|tts|audio|live|exp|preview|thinking/.test(m.name));
+  ok.sort((a, b) => b.name.localeCompare(a.name, undefined, { numeric: true }));
+  return ok[0] ? ok[0].name.replace(/^models\//, "") : null;
+}
+
+async function callModel(env, model, parts, jsonOut, maxTokens) {
+  return fetch(`${API}/models/${model}:generateContent`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts }],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: maxTokens,
+        ...(jsonOut ? { responseMimeType: "application/json" } : {}),
+      },
+    }),
+  });
+}
+
+async function gemini(env, parts, { jsonOut = false, maxTokens = 2048 } = {}) {
+  const tried = [];
+  const candidates = chosenModel ? [chosenModel] : [...MODELS];
+  for (let i = 0; i < candidates.length + 1; i++) {
+    let model = candidates[i];
+    if (!model) { model = await findFlashModel(env); if (!model || tried.includes(model)) break; }
+    tried.push(model);
+    const res = await callModel(env, model, parts, jsonOut, maxTokens);
+    if (res.status === 404) { if (chosenModel) { chosenModel = null; candidates.push(...MODELS); } continue; }
+    if (!res.ok) {
+      let msg = ""; try { msg = (await res.json()).error?.message || ""; } catch {}
+      throw new Error(`AI service error ${res.status} ${msg}`.trim());
     }
-  );
-  if (!res.ok) throw new Error("AI service error " + res.status);
-  const data = await res.json();
-  return (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("").trim();
+    chosenModel = model;
+    const data = await res.json();
+    return (data.candidates?.[0]?.content?.parts || []).filter(p => !p.thought).map(p => p.text || "").join("").trim();
+  }
+  throw new Error("No Gemini model available for this key (tried " + tried.join(", ") + ")");
 }
 
 const ANALYZE_PROMPT = (lang) => `You are a nutrition assistant for an Indian calorie tracking app.
@@ -67,7 +95,7 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
-    if (request.method !== "POST") return json({ ok: true, service: "annam-ai" }, 200, origin);
+    if (request.method !== "POST") return json({ ok: true, service: "annam-ai", version: 2 }, 200, origin);
     if (!env.GEMINI_API_KEY) return json({ error: "GEMINI_API_KEY is not set" }, 500, origin);
     const path = new URL(request.url).pathname;
     let body;
@@ -79,7 +107,7 @@ export default {
         const text = await gemini(env, [
           { inline_data: { mime_type: m[1], data: m[2] } },
           { text: ANALYZE_PROMPT(body.lang) },
-        ], { jsonOut: true, maxTokens: 1000 });
+        ], { jsonOut: true, maxTokens: 2048 });
         let items = [];
         try { items = JSON.parse(text).items || []; } catch {}
         items = items.slice(0, 12).map(i => ({
