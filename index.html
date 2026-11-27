@@ -395,7 +395,7 @@ function render(){renderChrome();({today:viewToday,report:viewReport,coach:viewC
 /* ---------- Today ---------- */
 function ring(val,goal){const r=56,C=2*Math.PI*r,pct=Math.min(val/goal,1),over=val>goal;
   return `<svg viewBox="0 0 132 132"><circle cx="66" cy="66" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="12"/>
-  <circle cx="66" cy="66" r="${r}" fill="none" stroke="${over?"var(--over)":"var(--turmeric)"}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}"/></svg>`}
+  ${pct>0?`<circle cx="66" cy="66" r="${r}" fill="none" stroke="${over?"var(--over)":"var(--turmeric)"}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}"/>`:""}</svg>`}
 function macroBar(key,val,goal,color){const pct=Math.min(100,val/goal*100);
   return `<div class="macro"><div class="lbl"><b>${t(key)}</b><span class="num muted">${r0(val)} / ${goal} g</span></div><div class="bar"><i style="width:${pct}%;background:${color}"></i></div></div>`}
 function viewToday(){
