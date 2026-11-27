@@ -1,0 +1,22 @@
+name: Check AI server
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [index.html, worker/**, .github/workflows/check-ai.yml]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Server is running Annam code
+        run: |
+          URL=$(grep -oP '^const AI_URL="\K[^"]+' <(curl -s https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/index.html))
+          echo "AI_URL=$URL" >> $GITHUB_ENV
+          curl -s -m 20 "$URL/" | tee /tmp/get.json; echo
+          grep -q '"service":"annam-ai"' /tmp/get.json
+      - name: AI answers a question
+        run: |
+          curl -s -m 60 -X POST "$AI_URL/chat" -H "Content-Type: application/json" \
+            -H "Origin: https://senthamizhselvanpa29-byte.github.io" \
+            -d '{"question":"How much protein is in 2 boiled eggs?","lang":"en","context":{}}' | tee /tmp/chat.json; echo
+          grep -q '"answer"' /tmp/chat.json

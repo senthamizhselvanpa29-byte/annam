@@ -1,5 +1,5 @@
 // Annam offline support: cache the app shell, network-first for the page so updates show up.
-const CACHE = "annam-v2";
+const CACHE = "annam-v3";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
