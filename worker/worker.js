@@ -6,7 +6,7 @@
 
 // Preferred models, tried in order. If Google retires one, the server finds
 // another "flash" model automatically, so this file rarely needs changing.
-const MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash"];
+const MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash"];
 let chosenModel = null;
 const ALLOWED_ORIGINS = [
   "https://senthamizhselvanpa29-byte.github.io",
@@ -27,14 +27,15 @@ const json = (data, status, origin) =>
 
 const API = "https://generativelanguage.googleapis.com/v1beta";
 
-async function findFlashModel(env) {
+async function listFlashModels(env) {
   const res = await fetch(`${API}/models?pageSize=200`, { headers: { "x-goog-api-key": env.GEMINI_API_KEY } });
-  if (!res.ok) return null;
+  if (!res.ok) return [];
   const { models = [] } = await res.json();
   const ok = models.filter(m => (m.supportedGenerationMethods || []).includes("generateContent") &&
-    /flash/.test(m.name) && !/lite|image|tts|audio|live|exp|preview|thinking/.test(m.name));
-  ok.sort((a, b) => b.name.localeCompare(a.name, undefined, { numeric: true }));
-  return ok[0] ? ok[0].name.replace(/^models\//, "") : null;
+    /flash/.test(m.name) && !/image|tts|audio|live|exp|preview|thinking/.test(m.name));
+  // newest first, full "flash" before "flash-lite"
+  ok.sort((a, b) => (/lite/.test(a.name) - /lite/.test(b.name)) || b.name.localeCompare(a.name, undefined, { numeric: true }));
+  return ok.map(m => m.name.replace(/^models\//, ""));
 }
 
 async function callModel(env, model, parts, jsonOut, maxTokens) {
@@ -52,24 +53,31 @@ async function callModel(env, model, parts, jsonOut, maxTokens) {
   });
 }
 
+// Tries models in order. A missing model (404) or a busy one (429/5xx) moves on
+// to the next; other errors (bad key, bad request) stop with Google's message.
 async function gemini(env, parts, { jsonOut = false, maxTokens = 2048 } = {}) {
-  const tried = [];
-  const candidates = chosenModel ? [chosenModel] : [...MODELS];
-  for (let i = 0; i < candidates.length + 1; i++) {
-    let model = candidates[i];
-    if (!model) { model = await findFlashModel(env); if (!model || tried.includes(model)) break; }
-    tried.push(model);
+  const queue = [...new Set([chosenModel, ...MODELS].filter(Boolean))];
+  const tried = new Set();
+  let listed = false, busy = false, lastMsg = "";
+  while (true) {
+    let model = queue.shift();
+    if (!model && !listed) { listed = true; queue.push(...(await listFlashModels(env)).filter(m => !tried.has(m))); model = queue.shift(); }
+    if (!model) break;
+    if (tried.has(model)) continue;
+    tried.add(model);
     const res = await callModel(env, model, parts, jsonOut, maxTokens);
-    if (res.status === 404) { if (chosenModel) { chosenModel = null; candidates.push(...MODELS); } continue; }
-    if (!res.ok) {
-      let msg = ""; try { msg = (await res.json()).error?.message || ""; } catch {}
-      throw new Error(`AI service error ${res.status} ${msg}`.trim());
+    if (res.ok) {
+      chosenModel = model;
+      const data = await res.json();
+      return (data.candidates?.[0]?.content?.parts || []).filter(p => !p.thought).map(p => p.text || "").join("").trim();
     }
-    chosenModel = model;
-    const data = await res.json();
-    return (data.candidates?.[0]?.content?.parts || []).filter(p => !p.thought).map(p => p.text || "").join("").trim();
+    let msg = ""; try { msg = (await res.json()).error?.message || ""; } catch {}
+    if (res.status === 404) continue;
+    if (res.status === 429 || res.status >= 500) { busy = true; lastMsg = msg; if (model === chosenModel) chosenModel = null; continue; }
+    throw new Error(`AI service error ${res.status} ${msg}`.trim());
   }
-  throw new Error("No Gemini model available for this key (tried " + tried.join(", ") + ")");
+  throw new Error(busy ? `AI is busy right now, please try again in a minute. ${lastMsg}`.trim()
+                       : "No Gemini model available for this key (tried " + [...tried].join(", ") + ")");
 }
 
 const ANALYZE_PROMPT = (lang) => `You are a nutrition assistant for an Indian calorie tracking app.
@@ -95,7 +103,7 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
-    if (request.method !== "POST") return json({ ok: true, service: "annam-ai", version: 2 }, 200, origin);
+    if (request.method !== "POST") return json({ ok: true, service: "annam-ai", version: 3 }, 200, origin);
     if (!env.GEMINI_API_KEY) return json({ error: "GEMINI_API_KEY is not set" }, 500, origin);
     const path = new URL(request.url).pathname;
     let body;
