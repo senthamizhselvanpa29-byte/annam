@@ -80,30 +80,43 @@ async function gemini(env, parts, { jsonOut = false, maxTokens = 2048 } = {}) {
                        : "No Gemini model available for this key (tried " + [...tried].join(", ") + ")");
 }
 
-const ANALYZE_PROMPT = (lang) => `You are a nutrition assistant for an Indian calorie tracking app.
-Look at this meal photo. List every distinct food or drink you can see.
-For each item estimate the portion actually on the plate and its nutrition for that portion.
-Prefer Indian dish names (e.g. idli, sambar, dosa, chapati, dal, biryani) when they fit.
-If the photo is not food, return {"items": []}.
-Reply ONLY with JSON in this shape:
-{"items":[{"name":"English name","local":"name in ${LANG[lang] || "English"}","portion":"e.g. 2 pieces / 1 bowl","kcal":0,"protein":0,"carbs":0,"fat":0,"fibre":0}]}
-Numbers are grams except kcal. Round to whole numbers.`;
+const ANALYZE_PROMPT = (lang) => `You are an expert Indian dietitian estimating a meal from ONE photo for a calorie app.
+Work carefully:
+1. Identify each separate food or drink. Prefer specific Indian dish names (e.g. "idli", "sambar", "coconut chutney", "chicken biryani", "phulka/chapati").
+2. Judge portion size from plate/bowl/glass size, cutlery and hands. A typical steel katori holds ~150 g, a full dinner plate of rice ~250-300 g, one idli ~40 g, one chapati ~40 g, one dosa ~80-100 g.
+3. For countable items (idli, dosa, chapati, poori, vada, egg, biscuit, piece of fruit) give the count you can see.
+4. Judge visible oil/ghee: none, little, normal, lots (glossy surface, oil pools, fried look = lots).
+5. Give your own nutrition per 100 g as a fallback, using IFCT/ICMR-NIN style values for Indian home cooking.
+6. Be honest about confidence: "high" only if the dish and portion are clear; "low" if partly hidden, blurry or ambiguous.
+If the photo is not food, return {"items":[]}.
+Reply ONLY with JSON:
+{"items":[{"name":"English dish name","local":"name in ${LANG[lang] || "English"}","search":["2-3 alternative or more general names, e.g. 'rice idli','idli'"],
+"countable":true,"count":3,"grams":120,"cooked":true,"oil":"none|little|normal|lots","confidence":"high|medium|low",
+"per100":{"kcal":0,"protein":0,"carbs":0,"fat":0,"fibre":0}}],
+"note":"one short helpful tip in ${LANG[lang] || "English"} about hidden calories in this meal, or empty"}
+"grams" is the TOTAL weight of that item on the plate. Numbers only, no units.`;
 
-const CHAT_PROMPT = (lang, context, question) => `You are "Annam Helper", a friendly nutrition coach inside a calorie tracking app used mostly in India.
-Answer in ${LANG[lang] || "English"}, in simple words, in at most 120 words. Use short lines or a short list.
-Suggest Indian foods where useful. Use the user's data below when it helps.
-You are not a doctor: for illness, pregnancy, diabetes medicines or very low calorie goals, advise seeing a doctor.
-If the question is not about food, health, fitness or this app, politely say you can only help with those.
+const CHAT_PROMPT = (lang, context, question, history, refs) => `You are "Annam Helper", a warm, expert nutrition coach (like a registered dietitian) inside an Indian calorie tracking app.
+Rules:
+- Answer in ${LANG[lang] || "English"}. Simple words. Max 150 words. Use short lines or a small list. Use numbers (kcal, grams) where useful.
+- Personalise using the user's data: today's intake vs goal, what they ate, their aim (lose/keep/gain), the time of day.
+- For food values, prefer the REFERENCE FOODS below (from the Indian Nutrient Databank / app list) over your memory, and say portion sizes in Indian terms (katori, idli, chapati, glass).
+- Suggest practical Indian swaps and meals (South and North Indian), budget-friendly.
+- If the question is unclear or you need one key fact (e.g. portion, veg/non-veg), ask ONE short follow-up question instead of guessing.
+- You are not a doctor: for illness, pregnancy, diabetes/BP medicines, eating disorders or very low calorie goals, advise seeing a doctor.
+- Only help with food, nutrition, fitness, health habits and this app.
 
-User data (JSON): ${JSON.stringify(context).slice(0, 3000)}
+USER DATA: ${JSON.stringify(context).slice(0, 3500)}
+REFERENCE FOODS: ${JSON.stringify(refs || []).slice(0, 1500)}
+CONVERSATION SO FAR: ${JSON.stringify(history || []).slice(0, 3000)}
 
-Question: ${String(question).slice(0, 500)}`;
+User: ${String(question).slice(0, 600)}`;
 
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
-    if (request.method !== "POST") return json({ ok: true, service: "annam-ai", version: 3 }, 200, origin);
+    if (request.method !== "POST") return json({ ok: true, service: "annam-ai", version: 4 }, 200, origin);
     if (!env.GEMINI_API_KEY) return json({ error: "GEMINI_API_KEY is not set" }, 500, origin);
     const path = new URL(request.url).pathname;
     let body;
@@ -111,25 +124,29 @@ export default {
     try {
       if (path === "/analyze") {
         const m = /^data:(image\/(?:jpeg|png|webp));base64,(.+)$/.exec(body.image || "");
-        if (!m || m[2].length > 1_500_000) return json({ error: "Send a JPEG/PNG photo under 1 MB" }, 400, origin);
+        if (!m || m[2].length > 2_500_000) return json({ error: "Send a JPEG/PNG photo under 2 MB" }, 400, origin);
         const text = await gemini(env, [
           { inline_data: { mime_type: m[1], data: m[2] } },
           { text: ANALYZE_PROMPT(body.lang) },
         ], { jsonOut: true, maxTokens: 2048 });
-        let items = [];
-        try { items = JSON.parse(text).items || []; } catch {}
+        let items = [], note = "";
+        try { const j = JSON.parse(text); items = j.items || []; note = String(j.note || "").slice(0, 200); } catch {}
+        const num = (v, max) => Math.max(0, Math.min(max, Math.round(+v || 0)));
         items = items.slice(0, 12).map(i => ({
           name: String(i.name || "Food").slice(0, 60), local: String(i.local || i.name || "").slice(0, 60),
-          portion: String(i.portion || "1 serving").slice(0, 40),
-          kcal: Math.max(0, Math.round(+i.kcal || 0)), protein: Math.max(0, Math.round(+i.protein || 0)),
-          carbs: Math.max(0, Math.round(+i.carbs || 0)), fat: Math.max(0, Math.round(+i.fat || 0)),
-          fibre: Math.max(0, Math.round(+i.fibre || 0)),
+          search: (Array.isArray(i.search) ? i.search : []).slice(0, 3).map(x => String(x).slice(0, 40)),
+          countable: !!i.countable, count: i.countable ? num(i.count, 30) || 1 : null,
+          grams: num(i.grams, 2000) || 100, cooked: i.cooked !== false,
+          oil: ["none", "little", "normal", "lots"].includes(i.oil) ? i.oil : "normal",
+          confidence: ["high", "medium", "low"].includes(i.confidence) ? i.confidence : "medium",
+          per100: { kcal: num(i.per100?.kcal, 900), protein: num(i.per100?.protein, 100), carbs: num(i.per100?.carbs, 100),
+                    fat: num(i.per100?.fat, 100), fibre: num(i.per100?.fibre, 60) },
         }));
-        return json({ items }, 200, origin);
+        return json({ items, note }, 200, origin);
       }
       if (path === "/chat") {
         if (!body.question) return json({ error: "Ask a question" }, 400, origin);
-        const answer = await gemini(env, [{ text: CHAT_PROMPT(body.lang, body.context || {}, body.question) }]);
+        const answer = await gemini(env, [{ text: CHAT_PROMPT(body.lang, body.context || {}, body.question, body.history, body.reference_foods) }]);
         return json({ answer }, 200, origin);
       }
       return json({ error: "Not found" }, 404, origin);

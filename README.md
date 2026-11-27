@@ -13,3 +13,8 @@ A free calorie and nutrition tracker, in English, தமிழ் and हिं�
 Your data stays on your own phone (browser storage). Nothing is sent to a server.
 
 The website is published with GitHub Pages from the `main` branch.
+
+## Food data
+
+- About 70 everyday foods hand-checked for Annam (values per common serving).
+- About 1,000 Indian dishes from the **Indian Nutrient Databank (INDB)**: Vijayakumar A, et al. *Current Developments in Nutrition* 2024 (CC BY 4.0), data at https://github.com/lindsayjaacks/Indian-Nutrient-Databank-INDB- . INDB builds on ICMR-NIN Indian Food Composition Tables. Stored in `foods-indb.json` as values per 100 g plus the recipe's serving unit.
