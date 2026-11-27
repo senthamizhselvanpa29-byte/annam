@@ -178,6 +178,22 @@ main{max-width:560px;margin:0 auto;padding-block:14px 120px;padding-left:max(16p
 .recipe-body{padding:0 14px 14px;display:grid;gap:8px;font-size:14px}
 .recipe-body ol,.recipe-body ul{margin:0;padding-left:20px;display:grid;gap:4px}
 
+.entry .nm{background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer}
+.conf{font-size:11px;border-radius:99px;padding:1px 7px;font-weight:600;white-space:nowrap;vertical-align:middle}
+.conf.high{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
+.conf.medium{background:var(--turmeric-soft);color:var(--turmeric)}
+.conf.low{background:color-mix(in srgb,var(--over) 15%,transparent);color:var(--over)}
+.ai-item{display:grid;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.ai-item.off{opacity:.55}
+.q{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.q .seg button{padding:5px 10px}
+.q select{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:7px 10px;font-size:14px;max-width:100%}
+.mac{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px}
+.mac span[style]{border-left:3px solid var(--c);padding-left:5px}
+.kc-big{font-family:var(--display);font-size:20px}.kc-big small{font-size:12px;color:var(--muted);font-family:var(--body)}
+.food .tag{font-size:10px}
+.bar i.loading{width:35%;background:var(--brand);animation:load 1.2s ease-in-out infinite}
+@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
 .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;z-index:60;max-width:90%}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(30px);opacity:.6}}}
 @media (max-width:380px){.hero{grid-template-columns:110px 1fr}.ring{width:110px;height:110px}.ring-c strong{font-size:24px}.lang button{padding:4px 7px}}
@@ -226,7 +242,7 @@ en:{today:"Today",report:"Report",add:"Add",coach:"Helper",recipes:"Recipes",eat
  whatsOnPlate:"What's on the plate?",helperHi:"Hi! I look at what you ate today and this week, and give simple tips. Tap a question or type your own.",
  askPh:"Ask about food or your day…",send:"Send",q1:"How much protein is left?",q2:"What should I eat for dinner?",q3:"How was my week?",q4:"Tips to lose weight",
  helperNote:"Works offline using your own logs. A full AI chat can be added later.",ingredients:"Ingredients",steps:"Steps",logThis:"Log this",
- all:"All",hiProtein:"High protein",lowCal:"Under 300 kcal",veg:"Veg",perServ:"per serving",min:"min",streak:"day streak",hello:"Hello",finding:"Looking at your photo…",aiFound:"Found on your plate. Untick anything wrong, then add.",addSelected:"Add selected",aiFail:"Could not read the photo. Pick the food below instead.",thinking:"Thinking…",aiNote:"AI answers come from Google Gemini. Photos and questions are sent to Google to get the answer. Not medical advice.",aiHelperNote:"Smart helper powered by AI. Not medical advice."},
+ all:"All",hiProtein:"High protein",lowCal:"Under 300 kcal",veg:"Veg",perServ:"per serving",min:"min",streak:"day streak",hello:"Hello",finding:"Looking at your photo…",aiFound:"Found on your plate. Untick anything wrong, then add.",addSelected:"Add selected",aiFail:"Could not read the photo. Pick the food below instead.",thinking:"Thinking…",aiNote:"AI answers come from Google Gemini. Photos and questions are sent to Google to get the answer. Not medical advice.",aiHelperNote:"Smart helper powered by AI. Not medical advice.",editFood:"Change amount",recent:"Recent",popular:"Common foods",noMatch:"No match. Try another spelling.",loadingDb:"Loading food list…",srcIndb:"Values: Indian Nutrient Databank (per serving).",srcAnnam:"Values: Annam food list.",srcAi:"AI estimate",aiFoundQ:"Here is what I see. Answer the quick questions so the calories are right.",conf_high:"Sure",conf_medium:"Fairly sure",conf_low:"Not sure",matchQ:"Food",aiEstimate:"Use AI estimate",howMany:"How many?",howMuch:"How much?",small:"Small",medium:"Medium",large:"Large",oilQ:"Oil / ghee?",oil_less:"Less",oil_normal:"Normal",oil_extra:"Extra",oil_lots:"Lots",aiBusy:"AI is busy right now. Try again in a minute, or pick the food below.",cantEdit:"This item can only be removed, not edited."},
 ta:{today:"இன்று",report:"அறிக்கை",add:"சேர்",coach:"உதவியாளர்",recipes:"சமையல்",eaten:"சாப்பிட்டது",left:"மீதம்",over:"அதிகம்",goal:"இலக்கு",kcal:"கலோரி",
  protein:"புரதம்",carbs:"மாவுச்சத்து",fat:"கொழுப்பு",fibre:"நார்ச்சத்து",breakfast:"காலை உணவு",lunch:"மதிய உணவு",snacks:"சிற்றுண்டி",dinner:"இரவு உணவு",
  water:"தண்ணீர்",glasses:"டம்ளர்",addFood:"உணவு சேர்",searchFood:"உணவைத் தேடுங்கள்: இட்லி, பருப்பு…",snap:"உணவுப் படம் எடு",
@@ -239,7 +255,7 @@ ta:{today:"இன்று",report:"அறிக்கை",add:"சேர்",co
  whatsOnPlate:"தட்டில் என்ன இருக்கிறது?",helperHi:"வணக்கம்! இன்றும் இந்த வாரமும் நீங்கள் சாப்பிட்டதைப் பார்த்து எளிய குறிப்புகள் தருகிறேன். ஒரு கேள்வியைத் தட்டுங்கள்.",
  askPh:"உணவு பற்றி கேளுங்கள்…",send:"அனுப்பு",q1:"இன்னும் எவ்வளவு புரதம் வேண்டும்?",q2:"இரவு என்ன சாப்பிடலாம்?",q3:"என் வாரம் எப்படி இருந்தது?",q4:"எடை குறைக்க குறிப்புகள்",
  helperNote:"உங்கள் பதிவுகளை வைத்து இணையம் இல்லாமலும் வேலை செய்யும். முழு AI அரட்டை பின்னர் சேர்க்கலாம்.",ingredients:"தேவையானவை",steps:"செய்முறை",logThis:"இதைச் சேர்",
- all:"அனைத்தும்",hiProtein:"அதிக புரதம்",lowCal:"300 கலோரிக்குள்",veg:"சைவம்",perServ:"ஒரு அளவுக்கு",min:"நிமி",streak:"நாள் தொடர்",hello:"வணக்கம்",finding:"உங்கள் படத்தைப் பார்க்கிறேன்…",aiFound:"தட்டில் கண்டவை. தவறானதை நீக்கி, பிறகு சேர்க்கவும்.",addSelected:"தேர்ந்தவற்றைச் சேர்",aiFail:"படத்தைப் படிக்க முடியவில்லை. கீழே உணவைத் தேர்ந்தெடுங்கள்.",thinking:"யோசிக்கிறேன்…",aiNote:"AI பதில்கள் Google Gemini இலிருந்து வருகின்றன. பதிலுக்காக படங்களும் கேள்விகளும் Google க்கு அனுப்பப்படும். இது மருத்துவ ஆலோசனை அல்ல.",aiHelperNote:"AI உதவியாளர். இது மருத்துவ ஆலோசனை அல்ல."},
+ all:"அனைத்தும்",hiProtein:"அதிக புரதம்",lowCal:"300 கலோரிக்குள்",veg:"சைவம்",perServ:"ஒரு அளவுக்கு",min:"நிமி",streak:"நாள் தொடர்",hello:"வணக்கம்",finding:"உங்கள் படத்தைப் பார்க்கிறேன்…",aiFound:"தட்டில் கண்டவை. தவறானதை நீக்கி, பிறகு சேர்க்கவும்.",addSelected:"தேர்ந்தவற்றைச் சேர்",aiFail:"படத்தைப் படிக்க முடியவில்லை. கீழே உணவைத் தேர்ந்தெடுங்கள்.",thinking:"யோசிக்கிறேன்…",aiNote:"AI பதில்கள் Google Gemini இலிருந்து வருகின்றன. பதிலுக்காக படங்களும் கேள்விகளும் Google க்கு அனுப்பப்படும். இது மருத்துவ ஆலோசனை அல்ல.",aiHelperNote:"AI உதவியாளர். இது மருத்துவ ஆலோசனை அல்ல.",editFood:"அளவை மாற்று",recent:"சமீபத்தியவை",popular:"பொதுவான உணவுகள்",noMatch:"பொருந்தவில்லை. வேறு எழுத்துக்கூட்டலில் முயலுங்கள்.",loadingDb:"உணவு பட்டியல் ஏற்றப்படுகிறது…",srcIndb:"மதிப்புகள்: இந்திய ஊட்டச்சத்து தரவுத்தளம் (ஒரு அளவுக்கு).",srcAnnam:"மதிப்புகள்: அன்னம் உணவு பட்டியல்.",srcAi:"AI மதிப்பீடு",aiFoundQ:"நான் பார்ப்பது இவை. சரியான கலோரிக்கு சில கேள்விகளுக்கு பதில் சொல்லுங்கள்.",conf_high:"உறுதி",conf_medium:"ஓரளவு உறுதி",conf_low:"உறுதியில்லை",matchQ:"உணவு",aiEstimate:"AI மதிப்பீட்டைப் பயன்படுத்து",howMany:"எத்தனை?",howMuch:"எவ்வளவு?",small:"சிறியது",medium:"நடுத்தரம்",large:"பெரியது",oilQ:"எண்ணெய் / நெய்?",oil_less:"குறைவு",oil_normal:"வழக்கம்",oil_extra:"கூடுதல்",oil_lots:"நிறைய",aiBusy:"AI இப்போது பிஸியாக உள்ளது. ஒரு நிமிடம் கழித்து முயலுங்கள், அல்லது கீழே உணவைத் தேர்ந்தெடுங்கள்.",cantEdit:"இதை நீக்க மட்டுமே முடியும்."},
 hi:{today:"आज",report:"रिपोर्ट",add:"जोड़ें",coach:"सहायक",recipes:"रेसिपी",eaten:"खाया",left:"बाकी",over:"ज़्यादा",goal:"लक्ष्य",kcal:"कैलोरी",
  protein:"प्रोटीन",carbs:"कार्ब्स",fat:"वसा",fibre:"फाइबर",breakfast:"नाश्ता",lunch:"दोपहर का खाना",snacks:"स्नैक्स",dinner:"रात का खाना",
  water:"पानी",glasses:"गिलास",addFood:"खाना जोड़ें",searchFood:"खाना खोजें: इडली, दाल, चिकन…",snap:"खाने की फोटो लें",
@@ -252,7 +268,7 @@ hi:{today:"आज",report:"रिपोर्ट",add:"जोड़ें",coach
  whatsOnPlate:"थाली में क्या है?",helperHi:"नमस्ते! मैं आपका आज और इस हफ़्ते का खाना देखकर आसान सुझाव देता हूँ। कोई सवाल चुनें या लिखें।",
  askPh:"खाने के बारे में पूछें…",send:"भेजें",q1:"कितना प्रोटीन बाकी है?",q2:"रात में क्या खाऊँ?",q3:"मेरा हफ़्ता कैसा रहा?",q4:"वज़न घटाने के टिप्स",
  helperNote:"आपके रिकॉर्ड से बिना इंटरनेट के भी काम करता है। पूरा AI चैट बाद में जोड़ा जा सकता है।",ingredients:"सामग्री",steps:"विधि",logThis:"इसे जोड़ें",
- all:"सभी",hiProtein:"ज़्यादा प्रोटीन",lowCal:"300 कैलोरी से कम",veg:"शाकाहारी",perServ:"प्रति सर्विंग",min:"मिनट",streak:"दिन लगातार",hello:"नमस्ते",finding:"आपकी फोटो देख रहा हूँ…",aiFound:"थाली में ये मिला। जो गलत हो उसे हटाएँ, फिर जोड़ें।",addSelected:"चुने हुए जोड़ें",aiFail:"फोटो पढ़ नहीं पाया। नीचे से खाना चुनें।",thinking:"सोच रहा हूँ…",aiNote:"AI जवाब Google Gemini से आते हैं। जवाब के लिए फोटो और सवाल Google को भेजे जाते हैं। यह डॉक्टरी सलाह नहीं है।",aiHelperNote:"AI सहायक। यह डॉक्टरी सलाह नहीं है।"}
+ all:"सभी",hiProtein:"ज़्यादा प्रोटीन",lowCal:"300 कैलोरी से कम",veg:"शाकाहारी",perServ:"प्रति सर्विंग",min:"मिनट",streak:"दिन लगातार",hello:"नमस्ते",finding:"आपकी फोटो देख रहा हूँ…",aiFound:"थाली में ये मिला। जो गलत हो उसे हटाएँ, फिर जोड़ें।",addSelected:"चुने हुए जोड़ें",aiFail:"फोटो पढ़ नहीं पाया। नीचे से खाना चुनें।",thinking:"सोच रहा हूँ…",aiNote:"AI जवाब Google Gemini से आते हैं। जवाब के लिए फोटो और सवाल Google को भेजे जाते हैं। यह डॉक्टरी सलाह नहीं है।",aiHelperNote:"AI सहायक। यह डॉक्टरी सलाह नहीं है।",editFood:"मात्रा बदलें",recent:"हाल के",popular:"आम खाने",noMatch:"कुछ नहीं मिला। दूसरी स्पेलिंग आज़माएँ।",loadingDb:"खाने की सूची लोड हो रही है…",srcIndb:"मान: इंडियन न्यूट्रिएंट डेटाबैंक (प्रति सर्विंग)।",srcAnnam:"मान: अन्नम खाना सूची।",srcAi:"AI अनुमान",aiFoundQ:"मुझे यह दिख रहा है। सही कैलोरी के लिए छोटे सवालों के जवाब दें।",conf_high:"पक्का",conf_medium:"लगभग पक्का",conf_low:"पक्का नहीं",matchQ:"खाना",aiEstimate:"AI अनुमान लें",howMany:"कितने?",howMuch:"कितना?",small:"छोटा",medium:"मध्यम",large:"बड़ा",oilQ:"तेल / घी?",oil_less:"कम",oil_normal:"सामान्य",oil_extra:"ज़्यादा",oil_lots:"बहुत",aiBusy:"AI अभी व्यस्त है। एक मिनट बाद कोशिश करें, या नीचे से खाना चुनें।",cantEdit:"इसे सिर्फ़ हटाया जा सकता है।"}
 };
 
 /* ---------- food list: per serving: kcal, protein, carbs, fat, fibre (grams) ---------- */
@@ -348,9 +364,55 @@ const dk=d=>{const z=new Date(d);return z.getFullYear()+"-"+String(z.getMonth()+
 const todayKey=()=>dk(new Date());
 const daysAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return d};
 
+/* ---------- food model: every food has nutrients per 100 g and named units in grams ---------- */
+// grams for one unit of each hand-checked food (values above are per that unit)
+const UNIT_G={idli:40,dosa:80,masaladosa:160,sambar:150,chutney:30,pongal:200,upma:200,poha:180,vada:45,chapati:40,paratha:70,rice:160,brownrice:195,curdrice:200,lemonrice:180,ragi:150,oats:250,bread:30,dal:150,rasam:150,rajma:150,chana:150,sundal:150,sprouts:100,sabzi:150,palak:150,paneer:100,curd:200,buttermilk:200,milk:250,tea:150,coffee:150,egg:50,omelette:120,chickencurry:200,grilledchicken:100,fishcurry:200,vegbiryani:250,chickenbiryani:300,samosa:70,banana:118,apple:182,guava:100,papaya:145,mango:165,almonds:12,peanuts:30,salad:150,
+ poori:25,bhatura:80,bajji:25,bonda:50,kachori:60,parotta:100,ghee:5,oil:5,sugar:5,chicken65:100,muttoncurry:200,appam:60,puttu:150,kootu:150,poriyal:100,kesari:100,payasam:150,pulao:200,khichdi:200};
+const EXTRA_FOODS=[
+["poori","Poori","பூரி","पूरी","1 piece",100,2,12,5,0.6,1],["bhatura","Bhatura","பட்டூரா","भटूरा","1 piece",290,6,38,12,1.5,1],
+["bajji","Bajji / pakora","பஜ்ஜி","पकोड़ा","1 piece",70,1.5,6,4.5,0.8,1],["bonda","Bonda","போண்டா","बोंडा","1 piece",150,3,18,7,1.5,1],
+["kachori","Kachori","கச்சோரி","कचौरी","1 piece",260,5,26,15,2,1],["parotta","Kerala parotta","பரோட்டா","केरल पराठा","1 piece",310,6,45,12,2,1],
+["appam","Appam","ஆப்பம்","अप्पम","1 piece",120,2,24,1.5,0.8,1],["puttu","Puttu","புட்டு","पुट्टू","1 cup",220,4,46,2,3,1],
+["kootu","Kootu","கூட்டு","कूटू","1 bowl",160,7,18,6,5,1],["poriyal","Vegetable poriyal","பொரியல்","पोरियल","1 small bowl",90,2,9,5,3,1],
+["pulao","Veg pulao","புலாவ்","वेज पुलाव","1 cup",300,6,46,10,3,1],["khichdi","Khichdi","கிச்சடி","खिचड़ी","1 cup",250,9,38,7,4,1],
+["kesari","Rava kesari","ரவா கேசரி","सूजी हलवा","1 small bowl",330,4,48,14,1,1],["payasam","Payasam / kheer","பாயசம்","खीर","1 bowl",260,7,40,8,1,1],
+["chicken65","Chicken 65","சிக்கன் 65","चिकन 65","100 g",290,20,10,19,1,0],["muttoncurry","Mutton curry","மட்டன் குழம்பு","मटन करी","1 bowl",340,26,6,24,1,0],
+["ghee","Ghee","நெய்","घी","1 tsp",45,0,0,5,0,1],["oil","Cooking oil","எண்ணெய்","तेल","1 tsp",44,0,0,5,0,1],["sugar","Sugar","சர்க்கரை","चीनी","1 tsp",20,0,5,0,0,1]
+].map(r=>({id:r[0],en:r[1],ta:r[2],hi:r[3],unit:r[4],kcal:r[5],p:r[6],c:r[7],f:r[8],fi:r[9],veg:!!r[10]}));
+const CURRY=/bowl|cup/;
+function finishCurated(f){const g=UNIT_G[f.id]||100,k=100/g;
+  f.src="annam";f.per={kcal:f.kcal*k,p:f.p*k,c:f.c*k,f:f.f*k,fi:f.fi*k};
+  const u=f.unit.replace(/^1 /,"");f.units=[{l:u,g}];
+  if(CURRY.test(u))f.units.push({l:"small bowl",g:Math.round(g*.67)},{l:"large bowl",g:Math.round(g*1.6)});
+  f.units.push({l:"100 g",g:100});return f}
+FOODS.push(...EXTRA_FOODS);FOODS.forEach(finishCurated);EXTRA_FOODS.forEach(f=>FOOD[f.id]=f);
+// Indian Nutrient Databank: about 1,000 dishes, loaded in the background
+let dbReady=false;
+fetch("foods-indb.json").then(r=>r.json()).then(d=>{d.foods.forEach(([id,name,kcal,p,c,f,fi,units])=>{
+    const local=(name.match(/\(([^)]*)\)/)||[])[1]||"";const en=name;
+    const u=units.length?units.map(([l,g])=>({l,g})):[{l:"serving",g:100}];
+    const x={id,en,ta:en,hi:en,local,src:"indb",per:{kcal,p,c,f,fi},units:u,unit:"1 "+u[0].l,kcal:Math.round(kcal*u[0].g/100),p:+(p*u[0].g/100).toFixed(1)};
+    FOODS.push(x);FOOD[id]=x});dbReady=true;document.dispatchEvent(new Event("foodsready"))}).catch(()=>{});
+const norm=s=>String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z0-9஀-௿ऀ-ॿ ]+/g," ").replace(/\s+/g," ").trim();
+function searchFoods(q,limit=40){const s=norm(q);if(!s)return[];const words=s.split(" ");
+  const scored=[];for(const f of FOODS){const hay=norm([f.en,f.ta,f.hi,f.local,f.id].join(" "));let sc=0;
+    for(const w of words){if(hay.includes(w))sc+=w.length>2?2:1;else{sc-=1}}
+    if(sc<=0)continue;const n0=norm(f[S.lang]||f.en);if(n0.startsWith(s))sc+=4;if(norm(f.en)===s)sc+=6;if(f.src==="annam")sc+=2.5;sc-=norm(f.en).length/60;
+    scored.push([sc,f])}
+  return scored.sort((a,b)=>b[0]-a[0]).slice(0,limit).map(x=>x[1])}
+// true when a whole word of the query appears as a whole word in the food's names
+const STOP=new Set("the and for with can how much many what eat ate are you has have any not too its day was this that from into per one two big small more less good bad best better than which should will lunch dinner breakfast snack today".split(" "));
+function wordHit(f,q){const W=new Set(norm([f.en,f.ta,f.hi,f.local].join(" ")).split(" "));
+  return norm(q).split(" ").some(w=>w.length>=3&&!STOP.has(w)&&(W.has(w)||W.has(w+"s")||W.has(w.replace(/s$/,""))))}
+function nutr(f,g){const k=g/100;return{kcal:Math.round(f.per.kcal*k),p:+(f.per.p*k).toFixed(1),c:+(f.per.c*k).toFixed(1),f:+(f.per.f*k).toFixed(1),fi:+(f.per.fi*k).toFixed(1)}}
 function foodOf(e){return FOOD[e.food]||{id:e.food,en:e.name||"Food",ta:e.local||e.name||"Food",hi:e.local||e.name||"Food",unit:e.unit||"1 serving"}}
-function mkEntry(id,qty,meal,photo){const f=FOOD[id];return{id:Math.random().toString(36).slice(2),food:id,qty,meal,photo:photo||null,
-  kcal:Math.round(f.kcal*qty),p:+(f.p*qty).toFixed(1),c:+(f.c*qty).toFixed(1),f:+(f.f*qty).toFixed(1),fi:+(f.fi*qty).toFixed(1)}}
+function uid(){return Math.random().toString(36).slice(2)}
+// entry: food id, unit label, unit grams, qty; nutrients stored so old days never change
+function mkEntry(id,qty,meal,photo,unitIdx=0){const f=FOOD[id];const u=f.units[unitIdx]||f.units[0];
+  return{id:uid(),food:id,qty,ul:u.l,ug:u.g,g:Math.round(u.g*qty),meal,photo:photo||null,...nutr(f,u.g*qty)}}
+function entryLabel(e){const f=foodOf(e);if(e.ul)return `${+e.qty} × ${e.ul}${e.ul==="100 g"?"":` (${e.g} g)`}`;return `${e.qty} × ${f.unit}`}
+function recentFoods(){const seen=new Set(),out=[];const days=Object.keys(S.logs).sort().reverse();
+  for(const d of days)for(const e of [...S.logs[d]].reverse()){if(!FOOD[e.food]?.units||seen.has(e.food))continue;seen.add(e.food);out.push(e);if(out.length>=8)return out}return out}
 function sampleData(){
   const plans=[
    [["idli",3,"breakfast"],["sambar",1,"breakfast"],["chutney",1,"breakfast"],["rice",1.5,"lunch"],["dal",1,"lunch"],["sabzi",1,"lunch"],["curd",1,"lunch"],["tea",1,"snacks"],["sundal",1,"snacks"],["chapati",3,"dinner"],["chickencurry",1,"dinner"]],
@@ -409,7 +471,7 @@ function viewToday(){
     return `<section class="card meal"><div class="meal-h"><h3>${t(m)}</h3><span class="kc num">${kc} ${t("kcal")}</span>
       <button class="chip-btn" data-snap="${m}" aria-label="${t("snap")}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
       <button class="chip-btn primary" data-addmeal="${m}">+ ${t("add")}</button></div>
-      ${E.length?E.map(e=>{const f=foodOf(e);return `<div class="entry">${e.photo?`<img src="${e.photo}" alt="">`:""}<div class="nm"><div>${esc(fname(f))}</div><small class="num">${e.qty} × ${f.unit} · P ${r0(e.p)}g · C ${r0(e.c)}g · F ${r0(e.f)}g</small></div><span class="kc">${e.kcal}</span><button class="x" data-del="${e.id}" aria-label="Remove">✕</button></div>`}).join(""):`<div class="empty">${t("nothingYet")}</div>`}
+      ${E.length?E.map(e=>{const f=foodOf(e);return `<div class="entry">${e.photo?`<img src="${e.photo}" alt="">`:""}<button class="nm" data-edit="${e.id}"><div>${esc(fname(f))}${e.ai?` <span class="conf ${e.conf||"medium"}" title="AI">AI</span>`:""}</div><small class="num">${esc(entryLabel(e))} · P ${r0(e.p)}g · C ${r0(e.c)}g · F ${r0(e.f)}g</small></button><span class="kc">${e.kcal}</span><button class="x" data-del="${e.id}" aria-label="Remove">✕</button></div>`}).join(""):`<div class="empty">${t("nothingYet")}</div>`}
     </section>`}).join("");
   $("#view").innerHTML=`
    ${S.sample?`<div class="banner"><span>${t("sample")}</span><button id="clearSample">${t("clear")}</button></div>`:""}
@@ -431,6 +493,7 @@ function viewToday(){
   $("#clearSample")?.addEventListener("click",()=>{S.logs={};S.water={};S.sample=false;save();render();openProfile()});
   document.querySelectorAll("[data-addmeal]").forEach(b=>b.onclick=()=>openAdd(b.dataset.addmeal));
   document.querySelectorAll("[data-snap]").forEach(b=>b.onclick=()=>startSnap(b.dataset.snap));
+  document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openEdit(k,b.dataset.edit));
   document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{S.logs[k]=L.filter(e=>e.id!==b.dataset.del);save();render();toast(t("removed"))});
   document.querySelectorAll("[data-water]").forEach(b=>b.onclick=()=>{const n=+b.dataset.water;S.water[k]=(S.water[k]===n?n-1:n);save();render()});
 }
@@ -440,50 +503,109 @@ function guessMeal(){const h=new Date().getHours();return h<11?"breakfast":h<15?
 /* ---------- Add food sheet ---------- */
 function closeSheet(){$("#layer").innerHTML=""}
 function sheet(html){$("#layer").innerHTML=`<div class="scrim"></div><div class="sheet" role="dialog" aria-modal="true"><div class="sheet-in"><div class="grab"></div>${html}</div></div>`;$(".scrim").onclick=closeSheet}
-function openAdd(meal,photo){
-  meal=meal||guessMeal();let q="",picked=null,qty=1;
-  sheet(`<div class="row"><h2 style="flex:1">${photo?t("whatsOnPlate"):t("addFood")}</h2><button class="chip-btn" id="sx">${t("cancel")}</button></div>
-    ${photo?`<img class="photo-prev" src="${photo}" alt="">${AI_URL?`<div id="aiBox" class="pick"><div class="small muted">${t("finding")}</div></div>`:`<div class="note">${t("photoNote")}</div>`}`:`<button class="btn ghost" id="snapBtn">📷 ${t("snap")}</button>`}
-    <div class="seg" id="mealSeg">${["breakfast","lunch","snacks","dinner"].map(m=>`<button data-m="${m}" aria-pressed="${m===meal}">${t(m)}</button>`).join("")}</div>
-    <div class="field"><input id="foodSearch" type="search" placeholder="${t("searchFood")}" autocomplete="off"></div>
-    <div id="pickBox"></div><div id="foodList"></div>`);
+function openAdd(meal,photo,aiPhoto,editEntry){
+  meal=editEntry?.meal||meal||guessMeal();let q="";
+  const mealSeg=`<div class="seg" id="mealSeg">${["breakfast","lunch","snacks","dinner"].map(m=>`<button data-m="${m}" aria-pressed="${m===meal}">${t(m)}</button>`).join("")}</div>`;
+  sheet(`<div class="row"><h2 style="flex:1">${editEntry?t("editFood"):photo?t("whatsOnPlate"):t("addFood")}</h2><button class="chip-btn" id="sx">${t("cancel")}</button></div>
+    ${photo?`<img class="photo-prev" src="${photo}" alt="">`:""}${mealSeg}
+    ${photo&&AI_URL?`<div id="aiBox"><div class="pick"><div class="small muted">${t("finding")}</div><div class="bar"><i class="loading"></i></div></div></div>`:""}
+    ${photo&&!AI_URL?`<div class="note">${t("photoNote")}</div>`:""}
+    ${!photo&&!editEntry?`<button class="btn ghost" id="snapBtn">📷 ${t("snap")}</button>`:""}
+    <div id="pickBox"></div>
+    ${editEntry?"":`<div class="field"><input id="foodSearch" type="search" placeholder="${t("searchFood")}" autocomplete="off"></div><div id="foodList"></div>`}`);
   $("#sx").onclick=closeSheet;$("#snapBtn")?.addEventListener("click",()=>{closeSheet();startSnap(meal)});
-  $("#mealSeg").onclick=e=>{const m=e.target.dataset.m;if(!m)return;meal=m;document.querySelectorAll("#mealSeg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m))};
-  const list=()=>{const s=q.trim().toLowerCase();const F=FOODS.filter(f=>!s||[f.en,f.ta,f.hi,f.id].some(x=>x.toLowerCase().includes(s)));
-    $("#foodList").innerHTML=F.map(f=>`<button class="food" data-f="${f.id}"><div class="nm">${esc(fname(f))}<small class="num">${f.unit} · ${f.kcal} ${t("kcal")} · P ${f.p}g</small></div><span class="add">+</span></button>`).join("")||`<div class="empty">—</div>`;
-    document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{picked=FOOD[b.dataset.f];qty=1;pick()})};
-  const pick=()=>{const f=picked;const box=$("#pickBox");
-    box.innerHTML=`<div class="pick"><div class="row"><strong style="flex:1">${esc(fname(f))}</strong><span class="num">${r0(f.kcal*qty)} ${t("kcal")}</span></div>
-     <div class="row"><div class="stepper"><button id="qm" aria-label="Less">−</button><output class="num">${qty}</output><button id="qp" aria-label="More">+</button></div><span class="muted small">× ${f.unit}</span></div>
-     <div class="small muted num">P ${r0(f.p*qty)}g · C ${r0(f.c*qty)}g · F ${r0(f.f*qty)}g · ${t("fibre")} ${r0(f.fi*qty)}g</div>
-     <button class="btn" id="addIt">${t("addTo")} ${t(meal)}</button></div>`;
-    $("#qm").onclick=()=>{qty=Math.max(.5,qty-.5);pick()};$("#qp").onclick=()=>{qty=Math.min(10,qty+.5);pick()};
-    $("#addIt").onclick=()=>{const k=todayKey();(S.logs[k]=S.logs[k]||[]).push(mkEntry(f.id,qty,meal,photo));photo=null;save();toast(t("added")+": "+fname(f));picked=null;box.innerHTML="";render()};
-    box.scrollIntoView({block:"nearest",behavior:"smooth"})};
+  $("#mealSeg").onclick=e=>{const m=e.target.dataset.m;if(!m)return;meal=m;document.querySelectorAll("#mealSeg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));$("#addIt")&&($("#addIt").textContent=(editEntry?t("save"):t("addTo")+" "+t(meal)))};
+  const row=f=>{const u=f.units[0];const n=nutr(f,u.g);return `<button class="food" data-f="${f.id}"><div class="nm">${esc(fname(f))}<small class="num">1 ${esc(u.l)}${u.l==="100 g"?"":` · ${u.g} g`} · ${n.kcal} ${t("kcal")} · P ${r0(n.p)}g</small></div>${f.src==="indb"?`<span class="tag">DB</span>`:""}<span class="add">+</span></button>`};
+  const list=()=>{if(!$("#foodList"))return;const s=q.trim();let html="";
+    if(!s){const R=recentFoods().map(e=>FOOD[e.food]);html=(R.length?`<div class="small muted" style="margin-top:6px">${t("recent")}</div>`+R.map(row).join(""):"")+`<div class="small muted" style="margin-top:10px">${t("popular")}</div>`+FOODS.filter(f=>f.src==="annam").slice(0,30).map(row).join("")}
+    else{const F=searchFoods(s);html=F.map(row).join("")||`<div class="empty">${dbReady?t("noMatch"):t("loadingDb")}</div>`}
+    $("#foodList").innerHTML=html;
+    document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>pick(FOOD[b.dataset.f]))};
+  const pick=(f,qty=1,ui=0)=>{const box=$("#pickBox");
+    const draw=()=>{const u=f.units[ui];const n=nutr(f,u.g*qty);
+      box.innerHTML=`<div class="pick"><div class="row"><strong style="flex:1;min-width:0">${esc(fname(f))}</strong><span class="num kc-big">${n.kcal} <small>${t("kcal")}</small></span></div>
+       <div class="seg" id="unitSeg">${f.units.map((x,i)=>`<button data-u="${i}" aria-pressed="${i===ui}">${esc(x.l)}${x.l==="100 g"?"":` · ${x.g}g`}</button>`).join("")}</div>
+       <div class="row"><div class="stepper"><button id="qm" aria-label="Less">−</button><output class="num">${qty}</output><button id="qp" aria-label="More">+</button></div><span class="muted small">× ${esc(u.l)} = ${Math.round(u.g*qty)} g</span></div>
+       <div class="mac num"><span style="--c:var(--protein)">P ${r0(n.p)}g</span><span style="--c:var(--carbs)">C ${r0(n.c)}g</span><span style="--c:var(--fat)">F ${r0(n.f)}g</span><span style="--c:var(--fibre)">${t("fibre")} ${r0(n.fi)}g</span></div>
+       <div class="small muted">${f.src==="indb"?t("srcIndb"):t("srcAnnam")}</div>
+       <button class="btn" id="addIt">${editEntry?t("save"):t("addTo")+" "+t(meal)}</button></div>`;
+      $("#unitSeg").onclick=e=>{const i=e.target.closest("[data-u]")?.dataset.u;if(i==null)return;ui=+i;draw()};
+      $("#qm").onclick=()=>{qty=Math.max(.5,qty-.5);draw()};$("#qp").onclick=()=>{qty=Math.min(20,qty+.5);draw()};
+      $("#addIt").onclick=()=>{const k=editEntry?.day||todayKey();const L=(S.logs[k]=S.logs[k]||[]);const e=mkEntry(f.id,qty,meal,editEntry?editEntry.photo:photo,ui);
+        if(editEntry){const i=L.findIndex(x=>x.id===editEntry.id);e.id=editEntry.id;if(i>=0)L[i]=e;else L.push(e);save();closeSheet();render();toast(t("saved"));return}
+        L.push(e);photo=null;save();toast(t("added")+": "+fname(f));box.innerHTML="";render()}};
+    draw();box.scrollIntoView({block:"nearest",behavior:"smooth"})};
+  if(editEntry){const f=FOOD[editEntry.food];const ui=Math.max(0,f.units.findIndex(u=>u.l===editEntry.ul));pick(f,editEntry.qty,ui);return}
   $("#foodSearch").oninput=e=>{q=e.target.value;list()};list();
-  if(photo&&AI_URL)aiAnalyze(photo,()=>meal,()=>{photo=null});
+  document.addEventListener("foodsready",list,{once:true});
+  if(photo&&AI_URL)aiAnalyze(aiPhoto||photo,photo,()=>meal,()=>{photo=null});
 }
+function openEdit(day,id){const e=(S.logs[day]||[]).find(x=>x.id===id);if(!e)return;
+  if(!FOOD[e.food]||!FOOD[e.food].units){toast(t("cantEdit"));return}openAdd(e.meal,null,null,{...e,day})}
 async function aiPost(path,body){const r=await fetch(AI_URL.replace(/\/$/,"")+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
   const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||r.status);return d}
-async function aiAnalyze(photo,getMeal,used){const box=$("#aiBox");
-  let items=[];try{items=(await aiPost("/analyze",{image:photo,lang:S.lang})).items||[]}catch(e){}
+
+/* ---------- AI photo: detect, match to the food database, then ask quick questions ---------- */
+const OIL_OPTS=[{k:"less",g:null},{k:"normal",g:0},{k:"extra",g:7},{k:"lots",g:21}];
+function aiItemModel(it){
+  // best database match for the dish the AI saw
+  let cands=[];for(const q of [it.name,...(it.search||[])]){for(const f of searchFoods(q,3))if(!cands.includes(f))cands.push(f)}
+  cands=cands.slice(0,4);
+  const good=cands.length&&[it.name,...(it.search||[])].some(q=>wordHit(cands[0],q));
+  const aiFood={id:"ai",en:it.name,ta:it.local||it.name,hi:it.local||it.name,src:"ai",
+    per:{kcal:+it.per100?.kcal||0,p:+it.per100?.protein||0,c:+it.per100?.carbs||0,f:+it.per100?.fat||0,fi:+it.per100?.fibre||0}};
+  const grams=Math.max(5,+it.grams||100),count=it.countable&&+it.count>0?Math.round(+it.count):null;
+  const oilDefault={none:"normal",little:"normal",normal:"normal",lots:"extra"}[it.oil]||"normal";
+  return{it,cands,aiFood,pick:good?0:-1,count,unitG:count?grams/count:null,grams,size:"m",oil:oilDefault,on:true}}
+function aiCalc(m){const f=m.pick>=0?m.cands[m.pick]:m.aiFood;
+  let g=m.count!=null?m.unitG*m.count:m.grams*({s:.6,m:1,l:1.5}[m.size]);
+  const n=nutr(f,g);const o=OIL_OPTS.find(x=>x.k===m.oil);
+  if(o.g===null){const cut=n.f*.5;n.f=+(n.f-cut).toFixed(1);n.kcal=Math.round(n.kcal-cut*9)}
+  else if(o.g){n.f=+(n.f+o.g).toFixed(1);n.kcal+=Math.round(o.g*9)}
+  return{f,g:Math.round(g),n}}
+async function aiAnalyze(aiPhoto,thumb,getMeal,used){
+  let res;try{res=await aiPost("/analyze",{image:aiPhoto,lang:S.lang})}catch(e){res={error:String(e.message||e)}}
   if(!$("#aiBox"))return;
-  if(!items.length){box.innerHTML=`<div class="small muted">${t("aiFail")}</div>`;return}
-  box.innerHTML=`<div class="small">${t("aiFound")}</div>${items.map((it,i)=>`<label class="row" style="gap:10px"><input type="checkbox" checked data-ai="${i}" style="width:20px;height:20px">
-     <span style="flex:1;min-width:0">${esc(S.lang==="en"?it.name:(it.local||it.name))}<small class="muted" style="display:block">${esc(it.portion)} · P ${it.protein}g · C ${it.carbs}g · F ${it.fat}g</small></span><b class="num">${it.kcal}</b></label>`).join("")}
-    <button class="btn" id="aiAdd">${t("addSelected")}</button><div class="note">${t("aiNote")}</div>`;
-  $("#aiAdd").onclick=()=>{const k=todayKey();const L=(S.logs[k]=S.logs[k]||[]);let first=true;
-    document.querySelectorAll("[data-ai]:checked").forEach(c=>{const it=items[+c.dataset.ai];
-      L.push({id:Math.random().toString(36).slice(2),food:"ai",name:it.name,local:it.local,unit:it.portion,qty:1,meal:getMeal(),photo:first?photo:null,
-        kcal:it.kcal,p:it.protein,c:it.carbs,f:it.fat,fi:it.fibre});first=false});
-    used();save();closeSheet();render();toast(t("added"))}}
+  const items=(res.items||[]).filter(i=>i&&i.name);
+  if(!items.length){$("#aiBox").innerHTML=`<div class="note">${res.error&&/busy/i.test(res.error)?t("aiBusy"):t("aiFail")}</div>`;return}
+  const M=items.map(aiItemModel);
+  const chip=(name,val,cur,label)=>`<button data-k="${name}" data-v="${val}" aria-pressed="${String(val)===String(cur)}">${label}</button>`;
+  const draw=()=>{let tot=0;
+    const cards=M.map((m,i)=>{const {f,g,n}=aiCalc(m);if(m.on)tot+=n.kcal;const it=m.it;
+      const conf=it.confidence||"medium";
+      return `<div class="ai-item ${m.on?"":"off"}" data-i="${i}">
+        <div class="row"><input type="checkbox" ${m.on?"checked":""} data-on aria-label="Include" style="width:20px;height:20px">
+          <strong style="flex:1;min-width:0">${esc(S.lang==="en"?it.name:(it.local||it.name))}</strong><span class="conf ${conf}">${t("conf_"+conf)}</span><b class="num">${n.kcal}</b></div>
+        ${m.on?`
+        <div class="q"><span>${t("matchQ")}</span><select data-match>${m.cands.map((c,j)=>`<option value="${j}" ${j===m.pick?"selected":""}>${esc(fname(c))}</option>`).join("")}<option value="-1" ${m.pick<0?"selected":""}>${t("aiEstimate")}</option></select></div>
+        ${m.count!=null?`<div class="q"><span>${t("howMany")}</span><div class="seg">${[1,2,3,4,5,6].map(v=>chip("count",v,m.count,v)).join("")}</div></div>`
+          :`<div class="q"><span>${t("howMuch")}</span><div class="seg">${chip("size","s",m.size,`${t("small")} · ${Math.round(m.grams*.6)}g`)}${chip("size","m",m.size,`${t("medium")} · ${Math.round(m.grams)}g`)}${chip("size","l",m.size,`${t("large")} · ${Math.round(m.grams*1.5)}g`)}</div></div>`}
+        ${it.cooked!==false?`<div class="q"><span>${t("oilQ")}</span><div class="seg">${OIL_OPTS.map(o=>chip("oil",o.k,m.oil,t("oil_"+o.k))).join("")}</div></div>`:""}
+        <div class="mac num small"><span style="--c:var(--protein)">P ${r0(n.p)}g</span><span style="--c:var(--carbs)">C ${r0(n.c)}g</span><span style="--c:var(--fat)">F ${r0(n.f)}g</span><span style="--c:var(--fibre)">Fi ${r0(n.fi)}g</span><span class="muted">${g} g · ${f.src==="ai"?t("srcAi"):f.src==="indb"?"INDB":"Annam"}</span></div>`:""}
+      </div>`}).join("");
+    $("#aiBox").innerHTML=`<div class="pick"><div class="small">${t("aiFoundQ")}</div>${cards}
+      ${res.note?`<div class="small muted">💡 ${esc(res.note)}</div>`:""}
+      <button class="btn" id="aiAdd">${t("addSelected")} · <span class="num">${tot}</span> ${t("kcal")}</button><div class="note">${t("aiNote")}</div></div>`;
+    document.querySelectorAll(".ai-item").forEach(el=>{const m=M[+el.dataset.i];
+      el.querySelector("[data-on]").onchange=e=>{m.on=e.target.checked;draw()};
+      el.querySelector("[data-match]")?.addEventListener("change",e=>{m.pick=+e.target.value;draw()});
+      el.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=b.dataset.v;m[k]=k==="count"?+v:v;draw()})});
+    $("#aiAdd").onclick=()=>{const k=todayKey();const L=(S.logs[k]=S.logs[k]||[]);let first=true;
+      M.filter(m=>m.on).forEach(m=>{const {f,g,n}=aiCalc(m);
+        const base={id:uid(),meal:getMeal(),photo:first?thumb:null,g,ai:1,conf:m.it.confidence,...n};
+        if(f.src!=="ai"&&f.units){const u=f.units.find(u=>Math.abs(g/u.g-Math.round(g/u.g*2)/2)<.01&&u.l!=="100 g")||{l:"100 g",g:100};
+          L.push({...base,food:f.id,ul:u.l,ug:u.g,qty:+(g/u.g).toFixed(2)})}
+        else L.push({...base,food:"ai",name:m.it.name,local:m.it.local,unit:`${g} g`,qty:1});first=false});
+      used();save();closeSheet();render();toast(t("added"))}};
+  if(!dbReady)document.addEventListener("foodsready",()=>{M.forEach((m,i)=>Object.assign(m,{...aiItemModel(m.it),on:m.on,count:m.count,size:m.size,oil:m.oil}));draw()},{once:true});
+  draw()}
 let snapMeal=null;
 function startSnap(meal){snapMeal=meal;$("#photoInput").value="";$("#photoInput").click()}
+function shrink(img,max,q){const s=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");
+  c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext("2d").drawImage(img,0,0,c.width,c.height);return c.toDataURL("image/jpeg",q)}
 $("#photoInput").onchange=e=>{const file=e.target.files[0];if(!file)return;const rd=new FileReader();
-  rd.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,360/Math.max(img.width,img.height));const c=document.createElement("canvas");
-    c.width=img.width*s;c.height=img.height*s;c.getContext("2d").drawImage(img,0,0,c.width,c.height);openAdd(snapMeal,c.toDataURL("image/jpeg",.7))};img.src=rd.result};
+  rd.onload=()=>{const img=new Image();img.onload=()=>openAdd(snapMeal,shrink(img,360,.7),shrink(img,1024,.82));img.src=rd.result};
   rd.readAsDataURL(file)};
-
 /* ---------- Profile ---------- */
 function openProfile(){const p=S.profile;
   sheet(`<h2>${t("profile")}</h2>
@@ -597,7 +719,10 @@ function viewCoach(){
   const ask=async q=>{if(!q.trim()||busy)return;chat.push({me:1,text:q});
     if(!AI_URL){chat.push({me:0,text:answer(q)});viewCoach();window.scrollTo({top:document.body.scrollHeight});return}
     busy=true;chat.push({me:0,text:t("thinking")});viewCoach();window.scrollTo({top:document.body.scrollHeight});
-    let a;try{a=(await aiPost("/chat",{question:q,lang:S.lang,context:aiContext()})).answer}catch(e){}
+    const history=chat.slice(0,-2).filter(m=>m.text!==t("thinking")).slice(-8).map(m=>({role:m.me?"user":"helper",text:m.text.slice(0,600)}));
+    const refs=[];for(const w of norm(q).split(" ").filter(w=>w.length>=3)){const f=searchFoods(w,1)[0];if(f&&f.units&&wordHit(f,w)&&!refs.includes(f))refs.push(f)}
+    const reference_foods=refs.slice(0,6).map(f=>{const u=f.units[0];const n=nutr(f,u.g);return{food:f.en,serving:`1 ${u.l} (${u.g} g)`,kcal:n.kcal,protein:n.p,carbs:n.c,fat:n.f,fibre:n.fi}});
+    let a;try{a=(await aiPost("/chat",{question:q,lang:S.lang,context:aiContext(),history,reference_foods})).answer}catch(e){a=/busy/i.test(String(e.message))?t("aiBusy"):null}
     chat[chat.length-1].text=a||answer(q);busy=false;if(tab==="coach"){viewCoach();window.scrollTo({top:document.body.scrollHeight})}};
   document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>ask(t(b.dataset.q)));
   $("#askF").onsubmit=e=>{e.preventDefault();ask($("#askI").value)};
