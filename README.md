@@ -4,6 +4,8 @@ A free calorie and nutrition tracker, in English, தமிழ் and हिं�
 
 - Log food from about 1,600 Indian dishes and basic foods, with calories, protein, carbs, fat, fibre, vitamins and minerals
 - Scan a packet barcode, make your own foods, keep favourites, copy yesterday's meal
+- Packet label: take a photo of the nutrition label, check the numbers (per 100 g or per serving), add the pack weight and how many grams you ate. The packet is saved in My foods with its exact numbers
+- Search understands half-typed words ("samba w"), spelling slips and other spellings (sambhar, chapathi, biriyani, uppuma, daal) and Tamil or Hindi names
 - Exact portions: small / medium / large, ¼ to 3 servings, exact grams, or weigh your plate before and after eating
 - Log past days, log exercise (calories burned are added to your budget), set your own calorie goal, see your BMI (Indian cut-offs)
 - Recipe maker: weigh your ingredients and the cooked pot, Annam works out one portion
@@ -29,7 +31,7 @@ The website is published with GitHub Pages from the `main` branch.
 
 All foods are stored in `foods.json` as values per 100 g (calories, protein, carbs, fat, fibre, sugars, saturated fat, cholesterol, calcium, iron, magnesium, potassium, sodium, zinc, vitamin C, folate, vitamin A) plus common servings in grams.
 
-- **Annam dishes (66):** South Indian and everyday dishes (pongal, kuzhambu, kootu, avial, idiyappam, adai, pesarattu, ragi kali, bisibelebath, puliyodharai, chettinad chicken and more), calculated from IFCT 2017 ingredient values with a cooked-weight yield.
+- **Annam dishes (98):** South Indian and everyday dishes (pongal, kuzhambu, kootu, avial, idiyappam, adai, pesarattu, ragi kali, bisibelebath, puliyodharai, chettinad chicken and more), calculated from IFCT 2017 ingredient values with a cooked-weight yield. This includes samba wheat (broken wheat) rava and its upma, pongal, kanji, dosa and payasam; 13 kinds of sambar (drumstick, brinjal, bottle gourd, ash gourd, pumpkin, radish, okra, small onion, mixed vegetable, tiffin, no oil, no dal, arachuvitta); cooked seeraga samba, basmati, sona masoori, ponni, matta, mappillai samba and kavuni rice; and seeraga samba biryani (chicken, mutton, egg, veg). IFCT has no separate entry for most rice types, so each uses the nearest IFCT rice (raw milled, parboiled milled, or brown rice for the red and black rices) and a typical cooked yield. Each dish also lists the other names people use for it (for example samba godumai, dalia, sorakkai sambar).
 - **Basic foods (542):** Indian Food Composition Tables 2017 (ICMR-NIN), via the `@ifct2017/compositions` package, with Tamil and Hindi names. These are raw foods (fruits, vegetables, grains, dals, nuts, milk, eggs, meat and fish).
 - **Indian dishes (955):** Indian Nutrient Databank (INDB): Vijayakumar A, et al. *Current Developments in Nutrition* 2024 (CC BY 4.0), https://github.com/lindsayjaacks/Indian-Nutrient-Databank-INDB- . Annam corrects two things in the original numbers:
   - deep-frying oil ("oil for frying", 240 to 480 ml) was counted in full; it is replaced by the oil the food absorbs (10 to 25% of the dough or batter weight), so 1 poori is about 110 kcal instead of 921;

@@ -182,6 +182,89 @@ DISHES = [
  ('curd_plain', 'Curd / thayir (plain)', 'தயிர்', 'दही', 1, {'CURD': 100}, 1.0, [['small bowl', 100], ['bowl', 150], ['tablespoon', 15]]),
 ]
 
+# ---- 2026-11-28: samba wheat (broken wheat) dishes, more sambar types, regional rice, seeraga samba biryani ----
+# Same method: home recipes, IFCT 2017 ingredient values, cooked-weight yield. Regional rice types use the
+# nearest IFCT rice (raw milled, parboiled milled or brown), because IFCT does not list them separately.
+def sambar(veg, dal=None, oil=15, water=900, extra=None):
+    ing = dict(dal if dal is not None else {'B021': 75})
+    ing.update({'E064': 15, **SAMBAR_POWDER, 'G018': 50, 'D076': 50, **veg})
+    if oil: ing['T005'] = oil
+    ing.update({**TEMPER, 'G033': 1, 'G009': 5, 'SALT': 8, 'WATER': water, **(extra or {})})
+    return ing
+UPMA_BASE = {'T005': 15, 'G017': 60, 'G008': 5, 'G014': 3, 'H013': 1, 'B003': 3, 'G010': 2, 'SALT': 4}
+BIRYANI = {'G017': 150, 'D076': 100, 'CURD': 120, 'T005': 40, 'T013': 20, 'G014': 15, 'G011': 15, 'G016': 10,
+           'G009': 10, 'G022': 8, 'G031': 3, 'G020': 2, 'G023': 1, 'SALT': 12, 'WATER': 600}
+RICE_U = [['cup', 150]] + P
+DISHES += [
+ ('samba_rava', 'Samba wheat rava / broken wheat (dry)', 'சம்பா கோதுமை ரவை', 'दलिया (टूटा गेहूं, सूखा)', 1, {'A021': 100}, 1.0, [['tablespoon', 12], ['cup', 170]]),
+ ('samba_rava_upma', 'Samba rava upma (broken wheat upma)', 'சம்பா ரவை உப்புமா', 'दलिया उपमा', 1, {'A021': 100, **UPMA_BASE, 'WATER': 300}, .85, B),
+ ('samba_rava_upma_veg', 'Samba rava upma with vegetables (peas, carrot)', 'காய்கறி சம்பா ரவை உப்புமா', 'सब्ज़ी वाला दलिया उपमा', 1, {'A021': 100, 'D061': 40, 'F002': 40, 'D049': 30, **UPMA_BASE, 'G017': 50, 'SALT': 5, 'WATER': 320}, .85, B),
+ ('samba_rava_pongal', 'Samba rava pongal / khichdi (with moong dal)', 'சம்பா ரவை பொங்கல்', 'दलिया खिचड़ी', 1, {'A021': 100, 'B010': 40, 'T013': 15, 'G031': 2, 'G025': 2, 'G014': 3, 'H005': 8, 'G010': 2, 'SALT': 5, 'WATER': 500}, .85, B),
+ ('samba_rava_kanji', 'Samba rava kanji (salt, with buttermilk)', 'சம்பா ரவை கஞ்சி', 'नमकीन दलिया कांजी', 1, {'A021': 40, 'WATER': 400, 'CURD': 80, 'G018': 10, 'SALT': 3}, .9, G),
+ ('samba_rava_kanji_milk', 'Samba rava porridge with milk (sweet)', 'பால் சம்பா ரவை கஞ்சி', 'मीठा दलिया (दूध वाला)', 1, {'A021': 40, 'L002': 250, 'WATER': 200, 'SUGAR': 15, 'G020': 0.5}, .85, B),
+ ('samba_rava_dosa', 'Samba rava dosa', 'சம்பா ரவை தோசை', 'दलिया डोसा', 1, {'A021': 100, 'A015': 25, 'B003': 10, 'G017': 30, 'G008': 4, 'G025': 1, 'SALT': 3, 'WATER': 220, 'T005': 20}, .8, pc('dosa', 80)),
+ ('samba_rava_payasam', 'Samba rava payasam (broken wheat kheer)', 'சம்பா ரவை பாயசம்', 'दलिया खीर', 1, {'A021': 40, 'L002': 400, 'I001': 60, 'T013': 10, 'H005': 8, 'G020': 1}, .75, [['small bowl', 100], ['bowl', 150]]),
+ ('sambar_drumstick', 'Drumstick sambar (murungakkai)', 'முருங்கைக்காய் சாம்பார்', 'सहजन (ड्रमस्टिक) सांबर', 1, sambar({'D046': 150}), .8, B),
+ ('sambar_brinjal', 'Brinjal sambar (kathirikkai)', 'கத்தரிக்காய் சாம்பார்', 'बैंगन सांबर', 1, sambar({'D031': 150}), .8, B),
+ ('sambar_lauki', 'Bottle gourd sambar (sorakkai / lauki)', 'சுரைக்காய் சாம்பார்', 'लौकी सांबर', 1, sambar({'D007': 200}), .8, B),
+ ('sambar_ash_gourd', 'White pumpkin sambar (poosanikai / ash gourd)', 'வெண்பூசணி சாம்பார்', 'सफ़ेद कद्दू (पेठा) सांबर', 1, sambar({'D001': 200}), .8, B),
+ ('sambar_pumpkin', 'Yellow pumpkin sambar (parangikai)', 'பரங்கிக்காய் சாம்பார்', 'पीला कद्दू सांबर', 1, sambar({'D066': 200}), .8, B),
+ ('sambar_radish', 'Radish sambar (mullangi)', 'முள்ளங்கி சாம்பார்', 'मूली सांबर', 1, sambar({'F010': 150}), .8, B),
+ ('sambar_okra', 'Okra sambar (vendakkai)', 'வெண்டைக்காய் சாம்பார்', 'भिंडी सांबर', 1, sambar({'D056': 150}), .8, B),
+ ('sambar_onion', 'Small onion sambar (chinna vengaya)', 'சின்ன வெங்காய சாம்பார்', 'छोटे प्याज़ का सांबर', 1, sambar({'G018': 170}), .8, B),
+ ('sambar_mixed_veg', 'Mixed vegetable sambar', 'கலவை காய்கறி சாம்பார்', 'मिक्स सब्ज़ी सांबर', 1, sambar({'D046': 40, 'D031': 40, 'F002': 40, 'D049': 40, 'D066': 40}), .8, B),
+ ('sambar_tiffin', 'Tiffin sambar (for idli, dosa)', 'டிஃபன் சாம்பார் (இட்லி சாம்பார்)', 'इडली सांबर (टिफ़िन सांबर)', 1, sambar({'G018': 60, 'D076': 60}, dal={'B021': 40, 'B010': 30}, water=1000), .82, B),
+ ('sambar_no_oil', 'Sambar without oil', 'எண்ணெய் இல்லாத சாம்பார்', 'बिना तेल का सांबर', 1, sambar({'D046': 50, 'D031': 50, 'D066': 50}, oil=0), .8, B),
+ ('sambar_no_dal', 'Sambar without dal (vegetable kuzhambu)', 'பருப்பு இல்லாத சாம்பார்', 'बिना दाल का सांबर', 1, sambar({'D046': 80, 'D031': 80, 'D066': 80}, dal={}, oil=12, water=600, extra={'E064': 20}), .8, B),
+ ('sambar_arachuvitta', 'Arachuvitta sambar (ground coconut)', 'அரைச்சுவிட்ட சாம்பார்', 'नारियल मसाला सांबर', 1, sambar({'D046': 80, 'D031': 50}, extra={'H007': 40}), .8, B),
+ ('seeraga_samba_rice', 'Cooked seeraga samba rice', 'சீரக சம்பா சாதம்', 'जीरा सांबा चावल (पका)', 1, {'A015': 100, 'WATER': 180}, .95, RICE_U),
+ ('ponni_rice', 'Cooked ponni rice', 'பொன்னி அரிசி சாதம்', 'पोन्नी चावल (पका)', 1, {'A014': 100, 'WATER': 210}, .95, RICE_U),
+ ('sona_masoori_rice', 'Cooked sona masoori rice', 'சோனா மசூரி சாதம்', 'सोना मसूरी चावल (पका)', 1, {'A015': 100, 'WATER': 200}, .95, RICE_U),
+ ('basmati_rice', 'Cooked basmati rice', 'பாஸ்மதி சாதம்', 'बासमती चावल (पका)', 1, {'A015': 100, 'WATER': 180}, .95, RICE_U),
+ ('matta_rice', 'Cooked matta rice (Kerala red rice)', 'மட்டை அரிசி சாதம்', 'मट्टा चावल (लाल चावल, पका)', 1, {'A013': 100, 'WATER': 250}, .95, RICE_U),
+ ('mappillai_samba_rice', 'Cooked mappillai samba (red rice)', 'மாப்பிள்ளை சம்பா சாதம்', 'मप्पिल्लई सांबा लाल चावल (पका)', 1, {'A013': 100, 'WATER': 250}, .95, RICE_U),
+ ('kavuni_rice', 'Cooked karuppu kavuni (black rice)', 'கருப்பு கவுனி சாதம்', 'काला चावल (पका)', 1, {'A013': 100, 'WATER': 250}, .95, RICE_U),
+ ('ss_chicken_biryani', 'Seeraga samba chicken biryani', 'சீரக சம்பா சிக்கன் பிரியாணி', 'जीरा सांबा चिकन बिरयानी', 0, {'A015': 300, 'N001': 500, **BIRYANI}, .85, P),
+ ('ss_mutton_biryani', 'Seeraga samba mutton biryani', 'சீரக சம்பா மட்டன் பிரியாணி', 'जीरा सांबा मटन बिरयानी', 0, {'A015': 300, 'O001': 500, **BIRYANI, 'WATER': 700}, .85, P),
+ ('ss_egg_biryani', 'Seeraga samba egg biryani', 'சீரக சம்பா முட்டை பிரியாணி', 'जीरा सांबा अंडा बिरयानी', 0, {'A015': 300, 'M004': 300, **BIRYANI}, .85, P),
+ ('ss_veg_biryani', 'Seeraga samba vegetable biryani', 'சீரக சம்பா காய்கறி பிரியாணி', 'जीरा सांबा वेज बिरयानी', 1, {'A015': 300, 'F006': 100, 'F002': 80, 'D049': 80, 'D061': 60, **BIRYANI}, .85, P),
+]
+# other names people type (separated by |), used only for search
+ALIAS = {
+ 'samba_rava': 'samba rava|samba wheat|samba godumai|samba godhumai rava|godumai rava|broken wheat|dalia|daliya|cracked wheat|emmer wheat|bulgur|lapsi',
+ 'samba_rava_upma': 'samba wheat upma|samba godumai upma|godhumai rava upma|godumai upma|broken wheat upma|dalia upma|daliya upma',
+ 'samba_rava_upma_veg': 'samba wheat upma vegetables|samba rava upma peas carrot|vegetable dalia|broken wheat vegetable upma|godumai rava kichadi',
+ 'samba_rava_pongal': 'samba rava khichdi|samba wheat pongal|godhumai pongal|godumai rava pongal|broken wheat khichdi|dalia khichdi|broken wheat pongal',
+ 'samba_rava_kanji': 'samba wheat kanji|godhumai kanji|godumai kanji|broken wheat kanji|dalia kanji|samba rava koozh',
+ 'samba_rava_kanji_milk': 'samba rava kanji milk|sweet dalia|dalia porridge|broken wheat porridge|godhumai paal kanji',
+ 'samba_rava_dosa': 'samba wheat dosa|godhumai rava dosa|godumai rava dosai|broken wheat dosa|dalia dosa',
+ 'samba_rava_payasam': 'samba wheat payasam|godhumai payasam|godumai rava payasam|broken wheat payasam|dalia kheer|lapsi kheer',
+ 'sambar_drumstick': 'murungakkai sambar|drumstick sambar|sahjan sambar',
+ 'sambar_brinjal': 'kathirikkai sambar|kathirikai sambar|eggplant sambar|baingan sambar',
+ 'sambar_lauki': 'sorakkai sambar|suraikkai sambar|lauki sambar|sambar with lauki|bottle gourd sambar|dudhi sambar',
+ 'sambar_ash_gourd': 'poosanikai sambar|vellai poosanikai sambar|white pumpkin sambar|ash gourd sambar|petha sambar',
+ 'sambar_pumpkin': 'parangikai sambar|parangikkai sambar|yellow pumpkin sambar|kaddu sambar|pumpkin sambar',
+ 'sambar_radish': 'mullangi sambar|radish sambar|mooli sambar',
+ 'sambar_okra': 'vendakkai sambar|vendaikai sambar|okra sambar|bhindi sambar|ladies finger sambar',
+ 'sambar_onion': 'vengaya sambar|chinna vengaya sambar|small onion sambar|shallot sambar|onion sambar',
+ 'sambar_mixed_veg': 'sambar with vegetables|vegetable sambar|kalavai kai sambar|mix veg sambar',
+ 'sambar_tiffin': 'idli sambar|tiffin sambar|hotel sambar|dosa sambar|moong dal sambar',
+ 'sambar_no_oil': 'sambar without oil|oil free sambar|no oil sambar|zero oil sambar',
+ 'sambar_no_dal': 'sambar without dal|no dal sambar|kai kuzhambu|vegetable kuzhambu',
+ 'sambar_arachuvitta': 'arachu vitta sambar|arachuvitta sambar|coconut sambar|kerala sambar',
+ 'seeraga_samba_rice': 'seeraga samba|jeeraga samba|jeera samba rice|seeraga samba arisi|seeraga samba sadam',
+ 'ponni_rice': 'ponni arisi|ponni boiled rice|ponni sadam',
+ 'sona_masoori_rice': 'sona masuri|sona masoori|sona masoori sadam',
+ 'basmati_rice': 'basmathi rice|basmati chawal|basmati sadam',
+ 'matta_rice': 'kerala matta|rose matta|palakkadan matta|red rice|matta arisi|kerala red rice',
+ 'mappillai_samba_rice': 'mappillai samba|mapillai samba|maappillai samba|red rice|mappillai samba arisi',
+ 'kavuni_rice': 'karuppu kavuni|kavuni arisi|black rice|kala chawal',
+ 'ss_chicken_biryani': 'dindigul biryani|seeraga samba biryani|jeeraga samba biryani|dindigul chicken biryani',
+ 'ss_mutton_biryani': 'dindigul mutton biryani|seeraga samba mutton biryani|mutton biryani',
+ 'ss_egg_biryani': 'egg biryani|muttai biryani|seeraga samba egg biryani',
+ 'ss_veg_biryani': 'veg biryani seeraga samba|vegetable biryani|kaikari biryani',
+}
+
 dishes = []
 for d in DISHES:
     did, en, ta, hi, veg, ing, y, units = d[:8]
@@ -195,7 +278,7 @@ for d in DISHES:
     cooked = W * y + fry_oil
     per = [x / cooked * 100 for x in tot]
     dishes.append({'id': 'AN_' + did, 'n': en, 'ta': ta, 'hi': hi, 'veg': veg,
-                   'u': units + [['100 g', 100]], 'v': rnd(per)})
+                   'u': units + [['100 g', 100]], 'v': rnd(per), **({'a': ALIAS[did]} if did in ALIAS else {})})
     print(f"{en[:34]:34} {per[0]:6.0f} kcal/100g  " + ', '.join(f"{u[0]} {u[1]}g={per[0]*u[1]/100:.0f}" for u in units[:2]))
 
 json.dump(raw, open('ifct_raw.json', 'w'), ensure_ascii=False)
