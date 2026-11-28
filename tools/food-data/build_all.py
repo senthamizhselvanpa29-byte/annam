@@ -18,7 +18,7 @@ def vg(name):
 
 foods = []
 for d in dishes:
-    foods.append([d['id'], d['n'], d['ta'], d['hi'], '', 'annam', d['veg'], d['u'], d['v']])
+    foods.append([d['id'], d['n'], d['ta'], d['hi'], '', 'annam', d['veg'], d['u'], d['v']] + ([d['a']] if d.get('a') else []))
 for r in raw:
     foods.append([r['id'], r['n'], '', '', ' '.join(x for x in (r['ta'], r['hi']) if x), 'ifct',
                   0 if r['grp'] in NONVEG_GRP else 1, r['u'], r['v']])
@@ -27,7 +27,7 @@ for r in indb:
     foods.append([r['id'], r['n'], '', '', r['l'], 'indb', vg(r['n'] + ' ' + r['l']), r['u'], v])
 # sanity: no NaN / negative
 for f in foods:
-    f[8] = [max(0, x) if x == x else 0 for x in f[8]]
+    f[8] = [max(0, x) if x == x else 0 for x in f[8]]  # (an optional 10th field holds other names, "|" separated)
 byid = {f[0]: f for f in foods}
 byname = {}
 for f in foods:
