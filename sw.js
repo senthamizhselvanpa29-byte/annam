@@ -1,6 +1,6 @@
 // Annam offline support: cache the app shell, network-first for the page so updates show up.
-const CACHE = "annam-v4";
-const SHELL = ["./", "index.html", "foods-indb.json", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
+const CACHE = "annam-v5";
+const SHELL = ["./", "index.html", "foods.json", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -8,6 +8,8 @@ self.addEventListener("activate", e => {
 });
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  const u = new URL(e.request.url);
+  if (u.origin !== location.origin && !u.host.includes("fonts.g")) return; // product lookups, AI: straight to network
   e.respondWith(
     fetch(e.request).then(res => {
       const copy = res.clone();
