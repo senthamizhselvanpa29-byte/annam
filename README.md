@@ -7,11 +7,18 @@ A free calorie and nutrition tracker, in English, தமிழ் and हिं�
 - Packet label: take a photo of the nutrition label, check the numbers (per 100 g or per serving), add the pack weight and how many grams you ate. The packet is saved in My foods with its exact numbers
 - Search understands half-typed words ("samba w"), spelling slips and other spellings (sambhar, chapathi, biriyani, uppuma, daal) and Tamil or Hindi names
 - Exact portions: small / medium / large, ¼ to 3 servings, exact grams, or weigh your plate before and after eating
-- Log past days, log exercise (calories burned are added to your budget), set your own calorie goal, see your BMI (Indian cut-offs)
+- Log past days, log exercise (calories burned are added to your budget, or switch this off), set your own calorie goal, see your BMI (Indian cut-offs)
+- Quick add: type only the calories (and protein, carbs, fat if you know them) for food you can't find, like a wedding meal
+- Steps (typed from your phone or watch, with a step goal; walking above your usual day adds calories) and last night's sleep (hours and how well you slept)
+- Body measurements (waist, hip, chest, arm, thigh, neck, body fat) with a waist check (Indian cut-offs: 90 cm men, 80 cm women), waist-to-height ratio, a body fat estimate from the tape (US Navy method) and a waist graph
+- Goals: how fast to lose or gain (0.25 to 1 kg a week) with a "reach your goal weight around" date, a protein / carbs / fat split (balanced, high protein, low carb or your own %), a water goal and a step goal
+- A calorie target for each meal (breakfast 25%, lunch 35%, snacks 10%, dinner 30%)
+- Day score out of 100 (calories near goal, protein, fibre, water and regular meals), with tips; today is compared with what you need by that time of day
 - Recipe maker: weigh your ingredients and the cooked pot, Annam works out one portion
 - Track your weight with a graph, and back up your data to a file
 - Add a meal photo
-- See a weekly report with simple tips
+- Report for 7 or 30 days with simple tips, your top foods (and where most sugar and salt came from), activity and sleep, and badges
+- Download your food diary and a daily summary (open in Excel or Google Sheets), print the report or save it as PDF for your doctor, and share your day on WhatsApp
 - Snap a meal photo and let AI find the foods and calories
 - Ask the AI helper about protein, dinner ideas and your week (works offline too, with simpler answers)
 - Weekly diet plans (veg, egg or non-veg; South Indian, North Indian or mixed; balanced, high protein or diabetes friendly), sized to your calorie goal, with swap and one-tap logging
