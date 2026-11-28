@@ -12,10 +12,16 @@ A free calorie and nutrition tracker, in English, தமிழ் and हिं�
 - See a weekly report with simple tips
 - Snap a meal photo and let AI find the foods and calories
 - Ask the AI helper about protein, dinner ideas and your week (works offline too, with simpler answers)
-- Healthy Indian recipes you can log with one tap
+- Weekly diet plans (veg, egg or non-veg; South Indian, North Indian or mixed; balanced, high protein or diabetes friendly), sized to your calorie goal, with swap and one-tap logging
+- Fasting timer (12 to 20 hours) with stages, streak and history
+- Reminders for meals, water and weekly weigh-in, plus Google Calendar links and a calendar file for reminders that always come
+- Diabetes mode: sugar log with targets, carbs per meal, sweet and high-fibre food tags, 14-day sugar chart. It is not medical advice; follow your doctor
+- Type or speak several foods at once, in English, Tamil or Hindi ("2 idli and 1 bowl sambar", "இரண்டு இட்லி ஒரு கிண்ணம் சாம்பார்", "दो रोटी और एक कटोरी दाल")
+- Save a meal you eat often (My meals) and add it again with one tap
+- Healthy Indian recipes you can log with one tap (in Plans)
 - Install it on your phone from the browser ("Add to Home screen"); it works offline
 
-Your data stays on your own phone (browser storage). Nothing is sent to a server.
+Your food log, sugar readings and settings stay on your own phone (browser storage). Only what you choose to send goes out: a meal photo or a question for the AI helper goes to the Annam AI server, a barcode goes to Open Food Facts, and the mic uses your phone browser's own speech service.
 
 The website is published with GitHub Pages from the `main` branch.
 
