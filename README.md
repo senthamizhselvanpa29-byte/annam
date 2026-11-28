@@ -4,6 +4,9 @@ A free calorie and nutrition tracker, in English, தமிழ் and हिं�
 
 - Log food from about 1,600 Indian dishes and basic foods, with calories, protein, carbs, fat, fibre, vitamins and minerals
 - Scan a packet barcode, make your own foods, keep favourites, copy yesterday's meal
+- Exact portions: small / medium / large, ¼ to 3 servings, exact grams, or weigh your plate before and after eating
+- Log past days, log exercise (calories burned are added to your budget), set your own calorie goal, see your BMI (Indian cut-offs)
+- Recipe maker: weigh your ingredients and the cooked pot, Annam works out one portion
 - Track your weight with a graph, and back up your data to a file
 - Add a meal photo
 - See a weekly report with simple tips
